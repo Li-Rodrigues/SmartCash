@@ -19,7 +19,15 @@ const Transaction = {
         Transaction.all.push(transaction);
         App.reload();
     },
-    
+
+    // NOVA FUNÇÃO: Função de Remoção
+    remove(index) {
+        // Remove um (1) item a partir da posição 'index'
+        Transaction.all.splice(index, 1);
+        
+        // Recarrega o App para redesenhar a tabela e atualizar os saldos
+        App.reload();
+    },    
 
     incomes() {
         let income = 0;
@@ -70,10 +78,14 @@ const Form = {
 
 const App = {
     init() {
-        Transaction.all.forEach(DOM.addTransaction);
+        // Modificação 3 - Veio o index aqui também - DOM saber a linha 
+        Transaction.all.forEach((transaction, index) => {
+            DOM.addTransaction(transaction, index);
+        });
+
         DOM.updateBalance();
 
-        // Modificação 2 - Toda vez que o App inicia ou atualiza, precisará atualizar o Storage
+        // Modificação 4 - Toda vez que o App inicia ou atualiza, precisará atualizar o Storage
         TransactionStorage.set(Transaction.all);
     },
     reload() {
