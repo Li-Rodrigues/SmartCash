@@ -9,7 +9,8 @@
     --radius: 16px;
 }
 
-* { margin: 0; 
+* { 
+    margin: 0; 
     padding: 0; 
     box-sizing: border-box; 
 }
@@ -50,12 +51,20 @@ header p { opacity: 0.7; font-weight: 300; margin-top: 0.5rem; }
     padding: 2rem;
     border-radius: var(--radius);
     box-shadow: 0 10px 15px -3px rgba(0,0,0,0.05);
+    transition: background-color 0.3s ease, color 0.3s ease; /* Transição suave para mudanças de estado */
 }
 
 .card h3 { font-size: 1rem; font-weight: 400; color: var(--text-body); }
 .card p { font-size: 2rem; font-weight: 600; margin-top: 0.5rem; }
+
+/* Destaque padrão do Card de Total (Saldo Positivo) */
 .card.total { background: var(--primary); color: white; }
 .card.total h3 { color: white; opacity: 0.8; }
+
+/* REFINAMENTO: Se o saldo total for negativo, o card muda para vermelho dinamicamente */
+.card.total.negative {
+    background: var(--red);
+}
 
 /* Caixas de Conteúdo */
 .box {
@@ -77,16 +86,20 @@ h2 { margin-bottom: 1.5rem; font-weight: 600; font-size: 1.25rem; }
 }
 
 input, select {
+    width: 100%; /* Garante comportamento consistente */
     padding: 0.8rem 1rem;
     border: 1px solid #e2e8f0;
     border-radius: 8px;
     font-family: inherit;
     font-size: 0.9rem;
     outline: none;
-    transition: border 0.2s;
+    transition: border-color 0.2s, box-shadow 0.2s;
 }
 
-input:focus { border-color: var(--primary); }
+input:focus, select:focus { 
+    border-color: var(--primary); 
+    box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.1); /* Feedback visual moderno focando o campo */
+}
 
 button {
     width: 100%;
@@ -97,23 +110,41 @@ button {
     border-radius: 8px;
     font-weight: 600;
     cursor: pointer;
-    transition: filter 0.2s;
+    transition: filter 0.2s, transform 0.1s;
 }
 
 button:hover { filter: brightness(1.1); }
+button:active { transform: scale(0.98); } /* Efeito de clique físico no botão */
 
 /* Tabela */
 .table-container { overflow-x: auto; }
 table { width: 100%; border-collapse: collapse; }
-th { text-align: left; padding: 1rem; color: var(--text-body); border-bottom: 2px solid #f1f5f9; }
+th { text-align: left; padding: 1rem; color: var(--text-body); border-bottom: 2px solid #f1f5f9; font-weight: 500; }
 td { padding: 1.2rem 1rem; border-bottom: 1px solid #f1f5f9; }
 
-.income { color: var(--green); }
-.expense { color: var(--red); }
+/* Classes utilitárias vindas do JS */
+.income { color: var(--green); font-weight: 500; }
+.expense { color: var(--red); font-weight: 500; }
+
+/* Estilização da Lixeira (Substituindo o estilo inline do JS) */
+.fa-trash-can {
+    cursor: pointer;
+    color: var(--red);
+    font-size: 1.1rem;
+    transition: transform 0.2s ease, opacity 0.2s ease;
+    opacity: 0.8;
+}
+
+.fa-trash-can:hover {
+    transform: scale(1.2);
+    opacity: 1;
+}
 
 footer { text-align: center; padding: 2rem; color: var(--text-body); font-size: 0.9rem; }
 
 /* Mobile */
 @media (max-width: 700px) {
     .input-row { grid-template-columns: 1fr; }
+    .box { padding: 1.5rem; } /* Melhora o aproveitamento de tela no mobile */
+    .card { padding: 1.5rem; }
 }

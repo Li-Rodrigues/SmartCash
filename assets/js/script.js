@@ -78,10 +78,13 @@ const Form = {
             // 2. Valida os campos antes de continuar
             Form.validateFields();
 
+            // Transforma o input (ex: 10.50) em centavos inteiros (1050) para evitar bugs matemáticos do JS
+            const amountInCents = Math.round(Number(Form.amount.value) * 100);
+
         // 3. Criar o objeto com os dados capturados
         const newTransaction = {
             description: Form.description.value,
-            amount: Number (Form.amount.value),
+            amount: amountInCents, // Salva o valor em centavos (ex: se digitou 60, salva 6000)
             category: Form.category.value,
             date: new Date().toLocaleDateString('pt-BR')
         };
@@ -120,3 +123,18 @@ const App = {
 // Escutar o evento de 'submit' (enviar) do formulário
 document.querySelector('#form').addEventListener('submit', Form.handleSave);
 App.init();
+
+// Listener dinâmico para dar feedback visual no input de valor (input vai mudar de cor)
+Form.amount.addEventListener('input', (e) => {
+    const value = Number(e.target.value);
+    if (value < 0) {
+        e.target.style.borderColor = 'var(--red)';
+        e.target.style.color = 'var(--red)';
+    } else if (value > 0) {
+        e.target.style.borderColor = 'var(--green)';
+        e.target.style.color = 'var(--green)';
+    } else {
+        e.target.style.borderColor = '#e2e8f0';
+        e.target.style.color = 'inherit';
+    }
+});
