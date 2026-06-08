@@ -56,11 +56,29 @@ const Form = {
     amount: document.querySelector('#amount'),
     category: document.querySelector('#category'),
 
+    // Nova função de Validação
+    validateFields() {
+        // Remove os espaços em branco dos valores atuais (.trim())
+        const description = Form.description.value.trim();
+        const amount = Form.amount.value.trim();
+        const category = Form.category.value;
+
+        // Se qualquer um dos campos estiver vazio, lança um erro
+        if (description === "" || amount === "" || category === "") {
+            throw new Error("Por favor, preencha todos os campos antes de salvar.");
+        }
+    },
+
     handleSave(event) {
         // 1. Desafio: Não deixar a página recarregar
         event.preventDefault();
 
-        // 2. Criar o objeto com os dados capturados
+        // Usamos o bloco try/catch para capturar o erro se a validação falhar
+        try {
+            // 2. Valida os campos antes de continuar
+            Form.validateFields();
+
+        // 3. Criar o objeto com os dados capturados
         const newTransaction = {
             description: Form.description.value,
             amount: Number (Form.amount.value),
@@ -68,11 +86,16 @@ const Form = {
             date: new Date().toLocaleDateString('pt-BR')
         };
 
-        // 3. Salvar no array
+        // 4. Salvar no array
         Transaction.add(newTransaction);
 
-        // 4. Limpar o formulário para a próxima entrada
+        // 5. Limpar o formulário para a próxima entrada
         event.target.reset();
+
+        } catch (error) {
+            // Se a validação falhar, vai mostrar um alerta com a mensagem do erro
+            alert(error.message);
+        }
     }
 };
 
