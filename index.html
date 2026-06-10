@@ -40,18 +40,23 @@
             <form id="form">
                 <div class="input-row">
                     <input type="text" id="description" placeholder="Descrição (ex: Aluguel)" required>
-                    <input type="number" step="0.01" id="amount" placeholder="Valor (ex: -50.00)" required>
+
+                    <select id="type" id="type" required style="border-color: var(--primary);">
+                        <option value="income" selected>🟢 Entrada (+)</option>
+                        <option value="expense">🔴 Saída (-)</option>
+                    </select>
+
+                    <input type="number" step="0.01" id="amount" placeholder="Valor (ex: 50.00)" required>
+
                     <select id="category" name="category" required>
                         <option value="" disabled selected>Selecione uma categoria</option>
                         <option value="Salário">Salário / Receita</option>
                         <option value="Investimentos">Investimentos</option>
-
                         <option value="Lazer">Lazer</option>
                         <option value="Alimentação">Alimentação</option>
                         <option value="Saúde">Saúde</option>
                         <option value="Moradia">Moradia</option>
                         <option value="Educação">Educação</option>
-
                         <option value="Outros">Outros</option>
                     </select>
                 </div>

@@ -55,6 +55,7 @@ const Form = {
     description: document.querySelector('#description'),
     amount: document.querySelector('#amount'),
     category: document.querySelector('#category'),
+    type: document.querySelector('#type'), //  1. Mapear o novo campo aqui
 
     // Nova função de Validação
     validateFields() {
@@ -62,6 +63,7 @@ const Form = {
         const description = Form.description.value.trim();
         const amount = Form.amount.value.trim();
         const category = Form.category.value;
+        const type = Form.type.value; // Adicionado na validação
 
         // Se qualquer um dos campos estiver vazio, lança um erro
         if (description === "" || amount === "" || category === "") {
@@ -79,7 +81,14 @@ const Form = {
             Form.validateFields();
 
             // Transforma o input (ex: 10.50) em centavos inteiros (1050) para evitar bugs matemáticos do JS
-            const amountInCents = Math.round(Number(Form.amount.value) * 100);
+            let amountInCents = Math.round(Number(Form.amount.value) * 100); // Mudança: De 'const' para 'let' para permitir a alteração abaixo
+
+            // 🌟 Regra de UX: Se o usuário selecionou "Saída", o JS força o valor a ser negativo
+            if (Form.type.value === 'expense') {
+                amountInCents = -Math.abs(amountInCents); 
+            } else {
+                amountInCents = Math.abs(amountInCents); // Garante que entrada seja positiva
+            }
 
         // 3. Criar o objeto com os dados capturados
         const newTransaction = {

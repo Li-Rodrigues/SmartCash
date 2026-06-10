@@ -80,7 +80,7 @@ h2 { margin-bottom: 1.5rem; font-weight: 600; font-size: 1.25rem; }
 /* Formulário em Linha */
 .input-row {
     display: grid;
-    grid-template-columns: 2fr 1fr 1fr;
+    grid-template-columns: 2fr 1fr 1fr 1fr; /* Mudança para 4 colunas */
     gap: 1rem;
     margin-bottom: 1.5rem;
 }
