@@ -40,7 +40,7 @@ An interactive personal finance management application developed to simplify inc
 
 ## 🌐 Demo
 The project is live and can be accessed in real-time at:
-👉 [Access SmartCash here](https://li-rodrigues.github.io/Smartcash/)
+👉 [Access SmartCash here](https://li-rodrigues.github.io/SmartCash/)
 
 ## 🚀 Technologies Used
 - **Semantic HTML5**: Clean and structured interface markup.
