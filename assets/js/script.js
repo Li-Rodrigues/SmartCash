@@ -42,11 +42,11 @@ const Transaction = {
         Transaction.all.forEach(transaction => {
             if (transaction.amount < 0) expense += transaction.amount;
         });
-        return expense;
+        return Math.abs(expense);
     },
 
     total() {
-        return Transaction.incomes() + Transaction.expenses();
+        return Transaction.incomes() - Transaction.expenses();
     }
 };
 

@@ -1,11 +1,12 @@
 :root {
-    --primary: #6366f1;
-    --dark-blue: #0f172a;
-    --green: #10b981;
-    --red: #f43f5e;
-    --background: #f8fafc;
-    --white: #ffffff;
-    --text-body: #64748b;
+    --primary: #ffcc00;
+    --primary-glow: rgba(255, 204, 0, 0.15);
+    --dark-blue: #ffffff;
+    --green: #00e676;
+    --red: #ff5252;
+    --background: #121214;
+    --white: #1e1e24;
+    --text-body:#a8a8b3;
     --radius: 16px;
 }
 
@@ -23,14 +24,14 @@ body {
 }
 
 header {
-    background: linear-gradient(135deg, var(--dark-blue), #1e293b);
+    background: linear-gradient(135deg, #121214, #1c1c21);
     padding: 4rem 1rem 10rem;
     text-align: center;
     color: white;
 }
 
-header h1 span { color: var(--green); font-weight: 600; }
-header p { opacity: 0.7; font-weight: 300; margin-top: 0.5rem; }
+header h1 span { color: var(--primary); font-weight: 600; }
+header p { opacity: 0.6; font-weight: 300; margin-top: 0.5rem; color: var(--text-body); }
 
 .container {
     max-width: 900px;
@@ -47,64 +48,177 @@ header p { opacity: 0.7; font-weight: 300; margin-top: 0.5rem; }
 }
 
 .card {
-    background: var(--white);
+    background: #000000 !important; 
     padding: 2rem;
     border-radius: var(--radius);
-    box-shadow: 0 10px 15px -3px rgba(0,0,0,0.05);
-    transition: background-color 0.3s ease, color 0.3s ease; /* Transição suave para mudanças de estado */
+    border: 1px solid #1e1e24; 
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.5);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
 }
 
-.card h3 { font-size: 1rem; font-weight: 400; color: var(--text-body); }
-.card p { font-size: 2rem; font-weight: 600; margin-top: 0.5rem; }
+.card:hover {
+    transform: translateY(-4px);
+}
+
+.card h3 { font-size: 0.9rem; text-transform: uppercase; letter-spacing: 1.5px; margin-bottom: 0.2rem; }
+.card p { font-size: 1.8rem; font-weight: 700; margin-top: 0.5rem; }
+
+/* 🟢 CARD DE ENTRADAS (Forçando por classe ou posição) */
+.card:nth-of-type(1), .card.income-card, .card:has(.income) {
+    border-left: 4px solid var(--green) !important; 
+}
+.card:nth-of-type(1) h3, .card:has(.income) h3 { color: #a8a8b3; }
+.card:nth-of-type(1) p, .card:has(.income) p { color: var(--green); }
+.card:nth-of-type(1):hover, .card:has(.income):hover { box-shadow: 0 0 20px rgba(0, 230, 118, 0.15); }
+
+
+/* 🔴 CARD DE SAÍDAS (Garantindo a consistência) */
+.card:nth-of-type(2), .card.expense-card, .card:has(.expense) {
+    border-left: 4px solid var(--red) !important;
+}
+.card:nth-of-type(2) h3, .card:has(.expense) h3 { color: #a8a8b3; }
+.card:nth-of-type(2) p, .card:has(.expense) p { color: var(--red); }
+.card:nth-of-type(2):hover, .card:has(.expense):hover { box-shadow: 0 0 20px rgba(255, 82, 82, 0.15); }
+
 
 /* Destaque padrão do Card de Total (Saldo Positivo) */
-.card.total { background: var(--primary); color: white; }
-.card.total h3 { color: white; opacity: 0.8; }
+
+.card.total { 
+    border: 2px solid var(--primary) !important; 
+    box-shadow: 0 0 15px rgba(255, 204, 0, 0.1);
+}
+
+.card.total h3 { color: var(--primary); font-weight: 600;}
+.card.total p { var(--primary); } 
+
+.card.total:hover {
+    box-shadow: 0 0 25px rgba(255, 204, 0, 0.3); 
+}
 
 /* REFINAMENTO: Se o saldo total for negativo, o card muda para vermelho dinamicamente */
+
 .card.total.negative {
-    background: var(--red);
+    border: 2px solid var(--red) !important;
+    box-shadow: 0 10px 25px rgba(255, 82, 82, 0.25);
+}
+
+.card.total.negative h3,
+.card.total.negative p {
+    color: color: var(--red);
+}
+
+.card.total.negative:hover {
+    box-shadow: 0 0 25px rgba(255, 82, 82, 0.3);
+}
+
+/* Seus títulos continuam legíveis */
+.card h3 { 
+    font-size: 1rem; 
+    font-weight: 400; 
+    color: var(--text-body); 
+}
+
+/* O valor geral fica branco por padrão */
+.card p { 
+    font-size: 2rem; 
+    font-weight: 600; 
+    margin-top: 0.5rem; 
+    color: #ffffff; 
+}
+
+/* --- NOVO DESTAQUE PARA OS VALORES DOS CARDS --- */
+
+/* Procura o valor dentro do card que tem a ver com entrada */
+.card:has(.income) p, .card .income {
+    color: var(--green) !important;
+    text-shadow: 0 0 10px rgba(0, 230, 118, 0.2); 
+}
+
+/* Procura o valor dentro do card que tem a ver com saída/despesa */
+.card:has(.expense) p, .card .expense {
+    position: relative;
+    color: var(--red) !important;
+    text-shadow: 0 0 10px rgba(255, 82, 82, 0.2); 
 }
 
 /* Caixas de Conteúdo */
 .box {
-    background: var(--white);
+    background: var(--box-bg);
     padding: 2.5rem;
     border-radius: var(--radius);
     margin-bottom: 2rem;
-    box-shadow: 0 4px 6px -1px rgba(0,0,0,0.05);
+    border: 1px solid #2d2d35;
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.3);
 }
 
-h2 { margin-bottom: 1.5rem; font-weight: 600; font-size: 1.25rem; }
+h2 { margin-bottom: 1.5rem; font-weight: 600; font-size: 1.25rem; color: #ffffff; }
 
 /* Formulário em Linha */
 .input-row {
     display: grid;
-    grid-template-columns: 1fr 1fr; /* Cria duas colunas iguais por linha. O grid joga automaticamente os outros 2 campos para baixo */
+    grid-template-columns: 1fr 1fr; 
     gap: 1rem;
     margin-bottom: 1.5rem;
 }
 
+/* Unifica a estilização dos textos dentro dos campos do formulário */
 input, select {
-    width: 100%; /* Garante comportamento consistente */
+    width: 100%; 
     padding: 0.8rem 1rem;
-    border: 1px solid #e2e8f0;
+    background-color: #121214; 
+    border: 1px solid #3a3a44;
     border-radius: 8px;
     font-family: inherit;
     font-size: 0.9rem;
+    
+    color: #888888 !important;
+    font-weight: 600 !important;
+    
     outline: none;
     transition: border-color 0.2s, box-shadow 0.2s;
 }
 
+/* Placeholders */
+
+input::-webkit-input-placeholder { /* Chrome, Safari, Opera */
+    color:#888888 !important;
+    font-weight: 400 !important;
+    opacity: 0.6 !important; /* Remove qualquer transparência padrão */
+}
+
+input::-moz-placeholder { /* Firefox 19+ */
+    color: #888888 !important;
+    font-weight: 400 !important;
+    opacity: 0.6 !important;
+}
+
+
+input:-ms-input-placeholder { /* IE 10+ */
+    color: #888888 !important;
+    font-weight: 400 !important;
+    opacity: 0.6 !important;
+}
+
+input::placeholder {
+
+    color: #888888 !important;
+    font-weight: 600 !important;
+    opacity: 1 !important;
+}
+
+
 input:focus, select:focus { 
     border-color: var(--primary); 
-    box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.1); /* Feedback visual moderno focando o campo */
+    box-shadow: 0 0 0 3px var(--primary-glow);
 }
 
 button {
     width: 100%;
-    background: var(--green);
-    color: white;
+    background: var(--primary);
+    color: #121214;
     padding: 1rem;
     border: none;
     border-radius: 8px;
@@ -113,14 +227,30 @@ button {
     transition: filter 0.2s, transform 0.1s;
 }
 
-button:hover { filter: brightness(1.1); }
-button:active { transform: scale(0.98); } /* Efeito de clique físico no botão */
+button:hover { filter: brightness(1.15); }
+button:active { transform: scale(0.98); } 
+
+.input-row button {
+    color: #ffffff !important;
+    font-weight: 600 !important;
+}
+
+/* Botão de Enviar Transação (Principal) */
+button[type="submit"], form > button {
+    background: var(--primary);
+    color: #121214;
+}
 
 /* Tabela */
 .table-container { overflow-x: auto; }
+
+.table-container::-webkit-scrollbar{ height: 6px;}
+.table-container::-webkit-scrollbar-track { background: #f1f5f9; }
+.table-container::-webkit-scrollbar-thumb { background: #cbd5e1; border-radius: 4px; }
+
 table { width: 100%; border-collapse: collapse; }
-th { text-align: left; padding: 1rem; color: var(--text-body); border-bottom: 2px solid #f1f5f9; font-weight: 500; }
-td { padding: 1.2rem 1rem; border-bottom: 1px solid #f1f5f9; }
+th { text-align: left; padding: 1rem; color: var(--text-body); border-bottom: 2px solid #2d2d35; font-weight: 500; }
+td { padding: 1.2rem 1rem; border-bottom: 1px solid #2d2d35; color: #e1e1e6; }
 
 /* Classes utilitárias vindas do JS */
 .income { color: var(--green); font-weight: 500; }
